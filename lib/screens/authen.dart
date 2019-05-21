@@ -24,6 +24,7 @@ class _AuthenState extends State<Authen> {
     return TextFormField(
       decoration: InputDecoration(
           labelText: 'Password :', hintText: 'More than 6 charactor'),
+          style: TextStyle(color: Colors.white),
     );
   }
 
@@ -31,6 +32,7 @@ class _AuthenState extends State<Authen> {
     return TextFormField(
       decoration:
           InputDecoration(labelText: 'User :', hintText: 'your username...'),
+          style: TextStyle(color: Colors.white),
     );
   }
 
@@ -42,46 +44,60 @@ class _AuthenState extends State<Authen> {
     return Text(
       'Pans Food',
       style: TextStyle(
-          fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.red[900]),
+          fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.white),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    //แก้บั๊คเวลาเรากดแป้นพิมพ์ resizeToAvoidBottomPadding: false,
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: Container(
-      margin: EdgeInsets.only(top: 70.0),
-      alignment: Alignment(0, -1),
-      child: Column(
-        children: <Widget>[
-          showLogo(),
-          Container(
-            margin: EdgeInsets.only(top: 10.0),
-            child: showTitle(),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 50.0, right: 50.0),
-            child: showUser(),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 50.0, right: 50.0),
-            child: showPassword(),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: showSignIn(),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Colors.red[400], Colors.deepPurple[800]],
+                  begin: Alignment(-1, -1))),
+          padding: EdgeInsets.only(top: 70.0),
+          alignment: Alignment(0, -1),
+          child: Column(
+            children: <Widget>[
+              showLogo(),
+
+              Container(
+                margin: EdgeInsets.only(top: 10.0),
+                child: showTitle(),
+              ),
+
+
+              Container(
+                margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                child: showUser(),
+              ),
+
+
+              Container(
+                margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                child: showPassword(),
+              ),
+
+              Container(
+                margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 15.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: showSignIn(),
+                    ),
+
+
+                    Expanded(
+                      child: showSignUp(),
+                    )
+                  ],
                 ),
-                Expanded(
-                  child: showSignUp(),
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-    ));
+              )
+            ],
+          ),
+        ));
   }
 }
