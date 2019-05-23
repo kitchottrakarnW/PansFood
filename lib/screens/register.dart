@@ -21,19 +21,24 @@ class _RegisterState extends State<Register> {
         if (formkey.currentState.validate()) {
           formkey.currentState.save();
           print('name = $name, user = $user, password = $password');
-uploadValueToServer();
+uploadValueToServer(context);
         }
       },
     );
   }
 
 
-  void uploadValueToServer() async{
+  void uploadValueToServer(BuildContext context) async{
     String urlPHP = 'https://www.androidthai.in.th/tid/addUserUng.php?isAdd=true&Name=$name&User=$user&Password=$password';
 
     var response = await get(urlPHP);
     var resultString = json.decode(response.body);
     print('resultString ==> $resultString');
+
+    if (resultString.toString() == 'true') {
+      // Create pop
+      Navigator.of(context).pop();
+    }
   }
 
   Widget nameTextFromField() {
