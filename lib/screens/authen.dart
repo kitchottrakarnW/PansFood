@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pans_food/screens/register.dart';
+import 'package:http/http.dart' show get;
+import 'dart:convert';
 
 class Authen extends StatefulWidget {
   @override
@@ -7,6 +9,10 @@ class Authen extends StatefulWidget {
 }
 
 class _AuthenState extends State<Authen> {
+  final formKey = GlobalKey<FormState>();
+
+  String user, password;
+
   Widget showSignUp(BuildContext context) {
     return RaisedButton(
       child: Text('Sign Up'),
@@ -24,8 +30,22 @@ class _AuthenState extends State<Authen> {
   Widget showSignIn() {
     return RaisedButton(
       child: Text('Sign In'),
-      onPressed: () {},
+      onPressed: () {
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          checkUserAndPassword();
+        }
+      },
     );
+  }
+
+  void checkUserAndPassword() async {
+    String urlPHP =
+        'https://www.androidthai.in.th/tid/getUserWhereUserMaster.php?isAdd=true&User=$user';
+
+    var response = await get(urlPHP);
+    var result = json.decode(response.body);
+    print('result ==> $result');
   }
 
   Widget showPassword() {
@@ -33,6 +53,14 @@ class _AuthenState extends State<Authen> {
       decoration: InputDecoration(
           labelText: 'Password :', hintText: 'More than 6 charactor'),
       style: TextStyle(color: Colors.white),
+      validator: (String value) {
+        if (value.length <= 5) {
+          return 'Password ต้องมากกว่า 6 ตัวอักษร';
+        }
+      },
+      onSaved: (String value) {
+        password = value;
+      },
     );
   }
 
@@ -41,6 +69,14 @@ class _AuthenState extends State<Authen> {
       decoration:
           InputDecoration(labelText: 'User :', hintText: 'your username...'),
       style: TextStyle(color: Colors.white),
+      validator: (String value) {
+        if (value.length == 0) {
+          return 'กรอก user ด้วยค่ะ';
+        }
+      },
+      onSaved: (String value) {
+        user = value;
+      },
     );
   }
 
@@ -63,42 +99,45 @@ class _AuthenState extends State<Authen> {
     //แก้บั๊คเวลาเรากดแป้นพิมพ์ resizeToAvoidBottomPadding: false,
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Colors.red[100], Colors.deepPurple[100]],
-                  begin: Alignment(-1, -1))),
-          padding: EdgeInsets.only(top: 70.0),
-          alignment: Alignment(0, -1),
-          child: Column(
-            children: <Widget>[
-              showLogo(),
-              Container(
-                margin: EdgeInsets.only(top: 10.0),
-                child: showTitle(),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 50.0, right: 50.0),
-                child: showUser(),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 50.0, right: 50.0),
-                child: showPassword(),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 15.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: showSignIn(),
-                    ),
-                    Expanded(
-                      child: showSignUp(context),
-                    )
-                  ],
+        body: Form(
+          key: formKey,
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.red[100], Colors.deepPurple[100]],
+                    begin: Alignment(-1, -1))),
+            padding: EdgeInsets.only(top: 70.0),
+            alignment: Alignment(0, -1),
+            child: Column(
+              children: <Widget>[
+                showLogo(),
+                Container(
+                  margin: EdgeInsets.only(top: 10.0),
+                  child: showTitle(),
                 ),
-              )
-            ],
+                Container(
+                  margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                  child: showUser(),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                  child: showPassword(),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 15.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: showSignIn(),
+                      ),
+                      Expanded(
+                        child: showSignUp(context),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }
