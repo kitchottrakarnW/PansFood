@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pans_food/screens/register.dart';
 
 class Authen extends StatefulWidget {
   @override
@@ -6,10 +7,17 @@ class Authen extends StatefulWidget {
 }
 
 class _AuthenState extends State<Authen> {
-  Widget showSignUp() {
+  Widget showSignUp(BuildContext context) {
     return RaisedButton(
       child: Text('Sign Up'),
-      onPressed: () {},
+      onPressed: () {
+        print('You Click SignUp');
+
+        // Create router
+        var registerRoute =
+            MaterialPageRoute(builder: (BuildContext context) => Register());
+        Navigator.of(context).push(registerRoute);
+      },
     );
   }
 
@@ -24,7 +32,7 @@ class _AuthenState extends State<Authen> {
     return TextFormField(
       decoration: InputDecoration(
           labelText: 'Password :', hintText: 'More than 6 charactor'),
-          style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Colors.white),
     );
   }
 
@@ -32,7 +40,7 @@ class _AuthenState extends State<Authen> {
     return TextFormField(
       decoration:
           InputDecoration(labelText: 'User :', hintText: 'your username...'),
-          style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Colors.white),
     );
   }
 
@@ -44,7 +52,9 @@ class _AuthenState extends State<Authen> {
     return Text(
       'Pans Food',
       style: TextStyle(
-          fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.white),
+          fontSize: 30.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.indigo[300]),
     );
   }
 
@@ -56,31 +66,25 @@ class _AuthenState extends State<Authen> {
         body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Colors.red[400], Colors.deepPurple[800]],
+                  colors: [Colors.red[100], Colors.deepPurple[100]],
                   begin: Alignment(-1, -1))),
           padding: EdgeInsets.only(top: 70.0),
           alignment: Alignment(0, -1),
           child: Column(
             children: <Widget>[
               showLogo(),
-
               Container(
                 margin: EdgeInsets.only(top: 10.0),
                 child: showTitle(),
               ),
-
-
               Container(
                 margin: EdgeInsets.only(left: 50.0, right: 50.0),
                 child: showUser(),
               ),
-
-
               Container(
                 margin: EdgeInsets.only(left: 50.0, right: 50.0),
                 child: showPassword(),
               ),
-
               Container(
                 margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 15.0),
                 child: Row(
@@ -88,10 +92,8 @@ class _AuthenState extends State<Authen> {
                     Expanded(
                       child: showSignIn(),
                     ),
-
-
                     Expanded(
-                      child: showSignUp(),
+                      child: showSignUp(context),
                     )
                   ],
                 ),
